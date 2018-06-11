@@ -1,9 +1,3 @@
-/**
-  * Audio Spectrum Analyzer
-  * Author: Jan Szemiet
-  */
-
-/* Includes ------------------------------------------------------------------*/
 #include <math.h>
 #include <stdio.h>
 #include "arm_math.h"               // Required to use float32_t type
@@ -12,12 +6,11 @@
 #include "tm_stm32f4_adc.h"
 #include "pwm.h"
 
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
 #define	SAMPLES 1024
 #define FFT_SIZE SAMPLES/2
 
+
+//to be removed after debugging
 int32_t a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17;
 
 float32_t getAdc(){
@@ -27,30 +20,30 @@ float32_t getAdc(){
 	return arg;
 }
 
-void jebnijBasemNaNixie(int32_t* koniec){
+void dropTheBass(int32_t* endTable){
 
-	TIM4->CCR1 = koniec[0];
-	TIM4->CCR2 = koniec[1];
-	TIM4->CCR3 = koniec[2];
-	TIM4->CCR4 = koniec[3];
+	TIM4->CCR1 = endTable[0];
+	TIM4->CCR2 = endTable[1];
+	TIM4->CCR3 = endTable[2];
+	TIM4->CCR4 = endTable[3];
 
-	TIM3->CCR1 = koniec[4];
-	TIM3->CCR2 = koniec[5];
-	TIM3->CCR3 = koniec[6];
-	TIM3->CCR4 = koniec[7];
+	TIM3->CCR1 = endTable[4];
+	TIM3->CCR2 = endTable[5];
+	TIM3->CCR3 = endTable[6];
+	TIM3->CCR4 = endTable[7];
 
-	TIM2->CCR1 = koniec[8];
-	TIM2->CCR2 = koniec[9];
-	TIM2->CCR3 = koniec[10];
-	TIM2->CCR4 = koniec[11];
+	TIM2->CCR1 = endTable[8];
+	TIM2->CCR2 = endTable[9];
+	TIM2->CCR3 = endTable[10];
+	TIM2->CCR4 = endTable[11];
 
-	TIM1->CCR1 = koniec[12];
-	TIM1->CCR2 = koniec[13];
-	TIM1->CCR3 = koniec[14];
-	TIM1->CCR4 = koniec[15];
+	TIM1->CCR1 = endTable[12];
+	TIM1->CCR2 = endTable[13];
+	TIM1->CCR3 = endTable[14];
+	TIM1->CCR4 = endTable[15];
 
-	TIM9->CCR1 = 20;
-	TIM9->CCR2 = koniec[17];
+	TIM9->CCR1 = endTable[18];
+	TIM9->CCR2 = endTable[17];
 }
 
 
@@ -71,7 +64,7 @@ int main(void)
 	float32_t bOutput[SAMPLES];
 	float32_t bOutputMag[SAMPLES];
 	float32_t maxValue;
-	int32_t koniec[18];
+	int32_t endTable[18];
 	uint32_t  maxIndex;
 	TM_ADC_Init(ADC1, ADC_Channel_0);
   	TM_ADC_Init(ADC1, ADC_Channel_1);
@@ -100,111 +93,113 @@ int main(void)
   	    	 bOutputMag[i] = 84*bOutputMag[i]/maxValue;
   	     }
 
-		koniec[0] = (int32_t)bOutputMag[1];
-		 koniec[1] = (int32_t)bOutputMag[2];
-		 koniec[2] = (int32_t)bOutputMag[3];
-		 koniec[3] = (int32_t)bOutputMag[4];
+		 endTable[0] = (int32_t)bOutputMag[1];
+		 endTable[1] = (int32_t)bOutputMag[2];
+		 endTable[2] = (int32_t)bOutputMag[3];
+		 endTable[3] = (int32_t)bOutputMag[4];
 
-		 koniec[4] = (int32_t)((bOutputMag[5]+bOutputMag[6])/2);
-		 koniec[5] = (int32_t)((bOutputMag[7]+bOutputMag[8])/2);
+		 endTable[4] = (int32_t)((bOutputMag[5]+bOutputMag[6])/2);
+		 endTable[5] = (int32_t)((bOutputMag[7]+bOutputMag[8])/2);
 
-		 koniec[6] = (int32_t)((bOutputMag[9]+bOutputMag[10])/2);
+		 endTable[6] = (int32_t)((bOutputMag[9]+bOutputMag[10])/2);
+ 
+		 endTable[7] = (int32_t)((bOutputMag[11]+bOutputMag[12])/2);
 
-		 koniec[7] = (int32_t)((bOutputMag[11]+bOutputMag[12])/2);
-
-		 int32_t suma=0;
+		 int32_t sum=0;
 		 for(int i=16; i<20; i++){
-			 suma+=bOutputMag[i];
+			 sum+=bOutputMag[i];
 		 }
 
-		 koniec[8] = (int32_t)(suma/2);
+		 endTable[8] = (int32_t)(sum/2);
 
-		suma=0;
+		sum=0;
 		for(int i=20; i<24; i++){
-				 suma+=bOutputMag[i];
+				 sum+=bOutputMag[i];
 		 }
 
-		koniec[9] = (int32_t)(suma/2);
+		endTable[9] = (int32_t)(sum/2);
 
-		suma=0;
+		sum=0;
 		for(int i=24; i<34; i++){
-			 suma+=bOutputMag[i];
+			 sum+=bOutputMag[i];
 		}
 
-		koniec[10] = (int32_t)(suma/3);
+		endTable[10] = (int32_t)(sum/3);
 
-		suma=0;
+		sum=0;
 		for(int i=34; i<44; i++){
-			 suma+=bOutputMag[i];
+			 sum+=bOutputMag[i];
 		}
 
-		koniec[11] = (int32_t)(suma/3);
+		endTable[11] = (int32_t)(sum/3);
 
-		suma=0;
+		sum=0;
 		for(int i=44; i<56; i++){
-			 suma+=bOutputMag[i];
+			 sum+=bOutputMag[i];
 		}
 
-		koniec[12] = (int32_t)(suma/5);
+		endTable[12] = (int32_t)(sum/5);
 
-		suma=0;
+		sum=0;
 		for(int i=56; i<74; i++){
-			 suma+=bOutputMag[i];
+			 sum+=bOutputMag[i];
 		}
 
-		koniec[13] = (int32_t)(suma/8);
+		endTable[13] = (int32_t)(sum/8);
 
-		suma=0;
+		sum=0;
 		for(int i=74; i<94; i++){
-			 suma+=bOutputMag[i];
+			 sum+=bOutputMag[i];
 		}
 
-		koniec[14] = (int32_t)(suma/8);
+		endTable[14] = (int32_t)(sum/8);
 
-		suma=0;
+		sum=0;
 		for(int i=94; i<120; i++){
-			 suma+=bOutputMag[i];
+			 sum+=bOutputMag[i];
 		}
 
-		koniec[15] = (int32_t)(suma/8);
+		endTable[15] = (int32_t)(sum/8);
 
-		suma=0;
+		sum=0;
 		for(int i=120; i<146; i++){
-			 suma+=bOutputMag[i];
+			 sum+=bOutputMag[i];
 		}
 
-		koniec[16] = (int32_t)(suma/8);
+		endTable[16] = (int32_t)(sum/8);
 
-		suma=0;
+		sum=0;
 		for(int i=146; i<256; i++){
-			 suma+=bOutputMag[i];
+			 sum+=bOutputMag[i];
 		}
 
-		koniec[17] = (int32_t)(suma/50);
+		endTable[17] = (int32_t)(sum/50);
 
 
-  	jebnijBasemNaNixie(koniec);
+  	dropTheBass(endTable);
+	for(int i=0; i<100000; i++);
+		
+	//to be removed after debugging
+  	a0=endTable[0];
+  	a1=endTable[1];
+  	a2=endTable[2];
+  	a3=endTable[3];
+  	a4=endTable[4];
+  	a5=endTable[5];
+  	a6=endTable[6];
+  	a7=endTable[7];
+  	a8=endTable[8];
+  	a9=endTable[9];
+  	a10=endTable[10];
+  	a11=endTable[11];
+  	a12=endTable[12];
+  	a13=endTable[13];
+  	a14=endTable[14];
+  	a15=endTable[15];
+  	a16=endTable[16];
+  	a17=endTable[17];
 
-  	a0=koniec[0];
-  	a1=koniec[1];
-  	a2=koniec[2];
-  	a3=koniec[3];
-  	a4=koniec[4];
-  	a5=koniec[5];
-  	a6=koniec[6];
-  	a7=koniec[7];
-  	a8=koniec[8];
-  	a9=koniec[9];
-  	a10=koniec[10];
-  	a11=koniec[11];
-  	a12=koniec[12];
-  	a13=koniec[13];
-  	a14=koniec[14];
-  	a15=koniec[15];
-  	a16=koniec[16];
-  	a17=koniec[17];
-
-  	for(int i=0; i<100000; i++);
+  	
   	}
 }
 
