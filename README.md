@@ -19,12 +19,16 @@ Jak widac na poniższym wykresie wysokośc świecacego neonu w lampie jest powi�
 <img src= "https://i.imgur.com/2FdSKM0.png" width="350" height="350">
 
 Sterowanie natężeniem można osiągnąć za pomocą tak zwanego <i> current sink </i>
-<img src="https://i.imgur.com/0xkUhvV.png" width="750" height="350" >
+<img src="https://i.imgur.com/0xkUhvV.png" width="750" height="350">
+
+
 <img src=https://i.imgur.com/db0xtqB.png" width="750" height="350">
                                                                   
 Jest to układ bardzo prosty, jednak niestety napięcia wymagane do obsługi tego układu dwukrotnie przekraczają możliwości płytki STM32F4.
 Jest również wrażliwy na zmiany temperatury tranzystora (kilka milimetrów, ale perfekcjonizm to nasze drugie imię), oraz Vmin nie mogłoby być = 0, co również byłoby nieintuicyjne.
 Z tego powodu nasz układ posługuje się poniższym układem:
+
+
 <img src="https://i.imgur.com/v6mt7dC.png" width="750" height="350">
 
 w którym to natężenie płynące przez lamę jest równe I = V(in)/R
