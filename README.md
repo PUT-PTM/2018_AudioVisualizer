@@ -9,16 +9,28 @@ zasilającego (transformator, prostownik, stabilizator) oraz płytki drukowanej.
 
 ## Opis działania
 * zasilanie:  
-Prąd przemienny 230V zostaje doprowadzony kablem do transformatora, który obniża jego napięcie do 160V. Następnie przy użyciu prostownika,
-zamieniany jest na prąd stały +-110V i stabilizowany za pomocą kondensatorów.
+Prąd przemienny 230V zostaje doprowadzony kablem do transformatora, który obniża jego napięcie do ~130V. Następnie przy użyciu prostownika, zamieniany jest on na prąd stały ~180V i stabilizowany za pomocą kondensatorów. Wykracza to poza specyfikacje lamp, jednak układ sterowania przejmuje na siebie część napięcia, więc jedynym skutkiem ubocznym jest nagrzanie się tranzystorów
 * układ obliczeniowy:  
 Sygnał audio stereo zostaje wczytany do mikrokontrolera za pomocą 2 kanałów ADC, po czym zostają połączone w uśredniony wynik. Następuje
 zebranie próbek sygnału i przekazanie je do szybkiej transformaty Fouriera (RFFT). Otrzymany wynik przekształcenia, za pomocą odpowiednich
 wag, zostaje skompresowane do ilości wyjść i odpowiednio wyskalowane. 
 * zasada kontrolowania:  
-Anody lamp Nixie zostają podłączone do zasilania, a katody do tranzystorów. Gotowy wynik tranformaty zostaje przekazany na odpowiednie piny PWM,
-które połączone są z tranzystorami. Możliwość zmiany wypełnienia modulacji szerokości impulsu (PWM) oraz "przełożenie" 3V z płytki STM32F4
-na dużo wyższe napięcie za pomoca tranzystorów sprawiają, że można z sukcesem zarządzać poziomem wypełnienia konkretnej lampy.
+Jak widac na poniższym wykresie wysokośc świecacego neonu w lampie jest powiązana z natężeniem prądu:
+<img src= "https://i.imgur.com/2FdSKM0.png" width="350" height="350">
+
+Sterowanie natężeniem można osiągnąć za pomocą tak zwanego <i> current sink </i>
+<img src="https://i.imgur.com/0xkUhvV.png" width="750" height="350" >
+<img src=https://i.imgur.com/db0xtqB.png" width="750" height="350">
+                                                                  
+Jest to układ bardzo prosty, jednak niestety napięcia wymagane do obsługi tego układu dwukrotnie przekraczają możliwości płytki STM32F4.
+Jest również wrażliwy na zmiany temperatury tranzystora (kilka milimetrów, ale perfekcjonizm to nasze drugie imię), oraz Vmin nie mogłoby być = 0, co również byłoby nieintuicyjne.
+Z tego powodu nasz układ posługuje się poniższym układem:
+<img src="https://i.imgur.com/v6mt7dC.png" width="750" height="350">
+
+w którym to natężenie płynące przez lamę jest równe I = V(in)/R
+
+Anody lamp Nixie zostają podłączone do zasilania, a katody do tranzystorów. Gotowy wynik tranformaty zostaje przekazany na odpowiednie piny PWM, które połączone są z tranzystorami. Możliwość zmiany wypełnienia modulacji szerokości impulsu (PWM) przekłada się na sterowanie napieciem w zakresie 0-3V. Wzmocnienie wzmacniaczem pozwala nam osiągnąć pełny zakres napięć wymaganych do obsługi lamp.
+
 
 ## Do zrobienia
 * zamontowanie wszystkich 18 lamp
