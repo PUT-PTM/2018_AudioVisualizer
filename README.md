@@ -12,8 +12,8 @@ zasilającego (transformator, prostownik, stabilizator) oraz płytki drukowanej.
 Prąd przemienny 230V zostaje doprowadzony kablem do transformatora, który obniża jego napięcie do ~130V. Następnie przy użyciu prostownika, zamieniany jest on na prąd stały ~180V i stabilizowany za pomocą kondensatorów. Wykracza to poza specyfikacje lamp, jednak układ sterowania przejmuje na siebie część napięcia, więc jedynym skutkiem ubocznym jest nagrzanie się tranzystorów
 * układ obliczeniowy:  
 Sygnał audio stereo zostaje wczytany do mikrokontrolera za pomocą 2 kanałów ADC, po czym zostają połączone w uśredniony wynik. Następuje
-zebranie próbek sygnału i przekazanie je do szybkiej transformaty Fouriera (RFFT). Otrzymany wynik przekształcenia, za pomocą odpowiednich
-wag, zostaje skompresowane do ilości wyjść i odpowiednio wyskalowane. 
+zebranie próbek sygnału i przekazanie ich do szybkiej transformaty Fouriera (RFFT). Otrzymany wynik przekształcenia, za pomocą odpowiednich
+wag, zostaje skompresowany do ilości wyjść i odpowiednio wyskalowane. 
 * zasada kontrolowania:  
 Jak widac na poniższym wykresie wysokośc świecacego neonu w lampie jest powiązana z natężeniem prądu:
 <img src= "https://i.imgur.com/2FdSKM0.png" width="350" height="350">
