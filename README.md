@@ -16,7 +16,7 @@ zebranie próbek sygnału i przekazanie ich do szybkiej transformaty Fouriera (R
 wag, zostaje skompresowany do ilości wyjść i odpowiednio wyskalowane. 
 * zasada kontrolowania:  
 Jak widac na poniższym wykresie wysokośc świecacego neonu w lampie jest powiązana z natężeniem prądu:
-<img src= "https://i.imgur.com/2FdSKM0.png" width="350" height="350">
+<img src= "https://i.imgur.com/2FdSKM0.png">
 
 Sterowanie natężeniem można osiągnąć za pomocą tak zwanego <i> current sink </i>
 <img src="https://i.imgur.com/0xkUhvV.png">
