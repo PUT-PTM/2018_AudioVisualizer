@@ -35,7 +35,15 @@ w którym to natężenie płynące przez lamę jest równe `I = V(in)/R`
 
 Anody lamp Nixie zostają podłączone do zasilania, a katody do tranzystorów. Gotowy wynik tranformaty zostaje przekazany na odpowiednie piny PWM, które połączone są z tranzystorami. Możliwość zmiany wypełnienia modulacji szerokości impulsu (PWM) przekłada się na sterowanie napieciem w zakresie 0-3V. Wzmocnienie wzmacniaczem pozwala nam osiągnąć pełny zakres napięć wymaganych do obsługi lamp.
 
-
+## Ustawienia projektu w System Workbench for STM32
+1. zmiana FPU_PRESENT na 0 w stm32f4xx.h:
+     `#define __FPU_PRESENT             0`
+2. Z menu SystemWorkbench Project -> Properties -> C/C++ Build -> MCU Settings zmienić:  
+     a) Floating-point hardware na "No unit"  
+     b) Floating-point ABI na "soft"
+3. Z menu SystemWorkbench Project -> Properties -> C/C++ General -> Path and Symbols -> Symbols dodać:
+    `ARM_MATH_CM4`
+    
 ## Do zrobienia
 * zamontowanie wszystkich 18 lamp
 * ustalenie otrzymanej kolejności lamp
@@ -45,4 +53,7 @@ Anody lamp Nixie zostają podłączone do zasilania, a katody do tranzystorów. 
 ## Autorzy
 * [Mikołaj Walkowiak](https://github.com/mikolaj-walkowiak)
 * [Paweł Przybyłowski](https://github.com/stfoorca)
-* [Bartosz Ptak](https://github.com/bartoszptak/)
+* [Bartosz Ptak](https://github.com/bartoszptak/)  
+  
+**Projekt został wykonany w ramach Podstaw Technik Mikroprocesorowych - przedmiotu prowadzonego przez Instytut Automatyki i Informatyki Politechniki Poznańskiej.  
+Opiekun: Marek Kraft**
