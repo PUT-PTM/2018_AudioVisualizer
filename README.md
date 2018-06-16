@@ -13,9 +13,9 @@ Prąd przemienny 230V zostaje doprowadzony kablem do transformatora, który obni
 * układ obliczeniowy:  
 Sygnał audio stereo zostaje wczytany do mikrokontrolera za pomocą 2 kanałów ADC, po czym zostają połączone w uśredniony wynik. Następuje
 zebranie próbek sygnału i przekazanie ich do szybkiej transformaty Fouriera (RFFT). Otrzymany wynik przekształcenia, za pomocą odpowiednich
-wag, zostaje skompresowany do ilości wyjść i odpowiednio wyskalowane. 
+wag, zostaje skompresowany do ilości wyjść i odpowiednio wyskalowany. 
 * zasada kontrolowania:  
-Jak widac na poniższym wykresie wysokośc świecacego neonu w lampie jest powiązana z natężeniem prądu:
+Jak widac na poniższym wykresie wysokość świecacego neonu w lampie jest powiązana z natężeniem prądu:
 <img src= "https://i.imgur.com/2FdSKM0.png">
 
 Sterowanie natężeniem można osiągnąć za pomocą tak zwanego <i> current sink </i>
@@ -25,13 +25,13 @@ Sterowanie natężeniem można osiągnąć za pomocą tak zwanego <i> current si
 <img src="https://i.imgur.com/db0xtqB.png">
                                                                   
 Jest to układ bardzo prosty, jednak niestety napięcia wymagane do obsługi tego układu dwukrotnie przekraczają możliwości płytki STM32F4.
-Jest również wrażliwy na zmiany temperatury tranzystora (kilka milimetrów, ale perfekcjonizm to nasze drugie imię), oraz Vmin nie mogłoby być = 0, co również byłoby nieintuicyjne.
+Jest również wrażliwy na zmiany temperatury tranzystora, oraz Vmin nie mogłoby być = 0, co również byłoby nieintuicyjne.
 Z tego powodu nasz układ posługuje się poniższym układem:
 
 
 <img src="https://i.imgur.com/v6mt7dC.png">
 
-w którym to natężenie płynące przez lamę jest równe `I = V(in)/R`
+w którym to natężenie płynące przez lampę jest równe `I = V(in)/R`
 
 Anody lamp Nixie zostają podłączone do zasilania, a katody do tranzystorów. Gotowy wynik tranformaty zostaje przekazany na odpowiednie piny PWM, które połączone są z tranzystorami. Możliwość zmiany wypełnienia modulacji szerokości impulsu (PWM) przekłada się na sterowanie napieciem w zakresie 0-3V. Wzmocnienie wzmacniaczem pozwala nam osiągnąć pełny zakres napięć wymaganych do obsługi lamp.
 
