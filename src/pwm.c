@@ -13,7 +13,7 @@ void initClocks(){
 
 void initTIM1(){
 	GPIO_InitTypeDef initA;
-	initA.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11;
+	initA.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10;
 	initA.GPIO_Mode = GPIO_Mode_OUT;
 	initA.GPIO_OType = GPIO_OType_PP;
 	initA.GPIO_Speed = GPIO_Speed_100MHz;

@@ -1,3 +1,4 @@
+
 /*
 ADC:
 	NR		PIN			ADC			CHANNEL
@@ -29,6 +30,8 @@ PWM:
 
 	16		PE5			TIM9		CH1
 	17		PE6			TIM9		CH2
+
+
 
 RCC:
 	TIM 1,9 -> APB2
